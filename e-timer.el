@@ -9,10 +9,10 @@
 (defun e-timer-loop-main ()
   (setq e-timer-last-sec (- e-timer-last-sec 1))
   (if (eq e-timer-last-sec -1)
-      (progn (setq e-timer-last-sec 59)
-	     (setq e-timer-last-min (- e-timer-last-min 1))))
-  (setq e-timer-last-all-sec (- e-timer-last-all-sec 1))
-  (setq e-timer-min (number-to-string e-timer-last-min)
+      (progn (setq e-timer-last-sec 59
+		   e-timer-last-min (- e-timer-last-min 1))))
+  (setq e-timer-last-all-sec (- e-timer-last-all-sec 1)
+	e-timer-min (number-to-string e-timer-last-min)
 	e-timer-sec (number-to-string e-timer-last-sec))
   (if (eq (length e-timer-min) 1) (setq e-timer-min (concat "0" e-timer-min)))
   (if (eq (length e-timer-sec) 1) (setq e-timer-sec (concat "0" e-timer-sec)))
@@ -26,14 +26,15 @@
 	     (setq e-timer-restore-time 5
 		   restore-timer (run-at-time 0 1 'e-timer-loop-restore)))))
 
-(defun e-timer-stop ()
-  (interactive)
-  (cancel-timer e-timer))
-
 (defun e-timer-loop-restore ()
   (setq e-timer-restore-time (- e-timer-restore-time 1))
   (if (eq e-timer-restore-time 0)
       (progn (setq mode-line-format tmp-line)
 	     (cancel-timer restore-timer))))
+
+(defun e-timer-stop ()
+  (interactive)
+  (cancel-timer e-timer))
+
 
 (provide 'e-timer)
